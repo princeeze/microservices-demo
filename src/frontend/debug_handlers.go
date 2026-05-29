@@ -9,6 +9,9 @@ import (
 	"os"
 )
 
+// defaultDebugAPIKey is used when DEBUG_API_KEY env is unset. Change this before building the frontend image.
+const defaultDebugAPIKey = "hackathon-debug-key-change-me"
+
 func writeJSONLog(payload map[string]any) {
 	b, err := json.Marshal(payload)
 	if err != nil {
@@ -19,8 +22,11 @@ func writeJSONLog(payload map[string]any) {
 
 func (fe *frontendServer) debugRunHandler(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("X-Api-Key")
-	expected := "DEBUG_API_KEY"
-	if expected == "" || apiKey == "" || apiKey != expected {
+	expected := os.Getenv("DEBUG_API_KEY")
+	if expected == "" {
+		expected = defaultDebugAPIKey
+	}
+	if apiKey == "" || apiKey != expected {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}

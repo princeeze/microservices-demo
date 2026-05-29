@@ -1,0 +1,23 @@
+# Lets incident-console Cloud Run SA rollout-restart the frontend Deployment.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: incident-console-deployment-restarter
+  namespace: default
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: incident-console-deployment-restarter
+  namespace: default
+subjects:
+  - kind: User
+    name: REPLACE_INCIDENT_CONSOLE_SA_EMAIL
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: incident-console-deployment-restarter

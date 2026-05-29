@@ -1,0 +1,8 @@
+# Prefer hackathon-addons/ for clusters already deployed via release/kubernetes-manifests.yaml.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - backend-config.yaml
+  - frontend-ingress.yaml
+patches:
+  - path: frontend-service-patch.yaml

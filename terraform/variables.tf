@@ -35,6 +35,12 @@ variable "namespace" {
   default     = "default"
 }
 
+variable "incident_console_sa_email" {
+  type        = string
+  description = "GCP service account email for incident-console (from infra/messaging terraform output). Empty skips remediation RBAC."
+  default     = ""
+}
+
 variable "filepath_manifest" {
   type        = string
   description = "Path to Online Boutique's Kubernetes resources, written using Kustomize"
